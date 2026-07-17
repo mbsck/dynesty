@@ -447,8 +447,7 @@ def _update_tqdm_eta_from_dlogz(pbar,
                 return
             rem_iters = (logl_max - loglstar) / slope
             if np.isfinite(rem_iters) and rem_iters > 0:
-                pbar.total = max(niter + int(np.ceil(rem_iters)),
-                                 pbar.n + 1)
+                pbar.total = max(niter + int(np.ceil(rem_iters)), pbar.n + 1)
             else:
                 pbar.total = None
             return
@@ -478,11 +477,7 @@ def _update_tqdm_eta_from_dlogz(pbar,
         state["last_slope"] = None
 
     history = state["history"]
-    slope = _tqdm_eta_slope(history,
-                            niter,
-                            delta_logz,
-                            min_points=3,
-                            log=True)
+    slope = _tqdm_eta_slope(history, niter, delta_logz, min_points=3, log=True)
     if slope is None:
         return
     if slope >= -1e-8:
@@ -547,6 +542,9 @@ def print_fn(itresult,
     logl_max : float, optional
         The maximum log-likelihood used when stopping sampling. Default is
         `np.inf`.
+
+    pbar : tqdm object, optional
+        The progress bar if using tqdm.
 
     """
     if pbar is None:
@@ -2281,6 +2279,10 @@ def restore_sampler(fname, pool=None):
             f'does not match the current dynesty version'
             f'({DYNESTY_VERSION}). That is *NOT* guaranteed to work')
 
+    # Here I try to guess what is the queue_size to use
+    # In the end I try to use the same one as was used before
+    # but I warn the user if that's the old done does not match the recommeded
+    # new one
     queue_size_old = getattr(sampler, 'queue_size', None)
     assert queue_size_old is not None  # I don't think it could ever happen
     try:
@@ -2293,7 +2295,8 @@ def restore_sampler(fname, pool=None):
 
     if queue_size_new != queue_size_old and queue_size_old != 1:
         warnings.warn(
-            f'Restoring the sampler with queue_size {queue_size_old}')
+            f'Restoring the sampler with the original queue_size {queue_size_old}'
+        )
         queue_size_new = queue_size_old
 
     if hasattr(sampler, 'sampler'):

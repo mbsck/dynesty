@@ -264,7 +264,7 @@ difficult to evaluate quickly. See
 **When fitting, the estimated time of sampling varies a lot from iteration to
 iteration**
 
-This is normal. There is no way to accurately know how many iterations of nested sampling will be needed and how long it will take. The estimate of total time is particularly uncertaintain in the beginning of the sampling. The time can also jump significantly every time a new location of the in the posterior with a particularly high log(l) value is discovered.
+This is normal. There is no way to accurately know how many iterations of nested sampling will be needed and how long it will take. The estimate of total time is particularly uncertain in the beginning of the sampling. The time can also jump significantly every time a new region in the posterior with a particularly high log(l) value is discovered.
 
 
 Live Point Questions
@@ -439,7 +439,7 @@ it's likely that I might not be able to help all that much.
 
 **How to decide on the number of processes in a pool and how to set queue_size**
 
-Assuming that you decided on the number of live-points K that you want to use and that the likelihood evaluation is not very quick, you should use as many processes as you can up to around K. The queue_size should be equal the number of processes. If you are using the the number of processes that M is smaller than K, you may want to use  :math:`M=K//2` or :math:`M=K//3` i.e integer fractions. So if you are using 1024 live-points all powers of two up to 1024 would be good choice for the number of processes. If you have likelihood functions that take highly variable amount of time to evaluate, you may benefit from using the queue_size that is significantly larger than the number CPUs (but queue_size should be always < K)
+Assuming that you decided on the number of live-points K that you want to use and that the likelihood evaluation is not very quick, you should use as many processes as you can up to around K. The queue_size should be equal to the number of processes. If you are using a number of processes M that is smaller than K, you may want to use  :math:`M=K//2` or :math:`M=K//3` i.e. integer fractions. So if you are using 1024 live-points, all powers of two up to 1024 would be a good choice for the number of processes. If you have likelihood functions that take highly variable amounts of time to evaluate, you may benefit from using a queue_size that is significantly larger than the number of CPUs (but queue_size should always be < K).
 
 
 **I would like to run dynesty across multiple nodes on a cluster. How do I do that ?**

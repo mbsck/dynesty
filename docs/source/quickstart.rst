@@ -449,15 +449,15 @@ upon initialization::
     # initialize sampler with pool
     sampler = NestedSampler(loglike, ptform, ndim, pool=pool)
 
-By default, `dynesty` tries to grab the size of the pool from the `pool.size`
-attribute of the `pool`. If this is not defined, the number of function
+By default, `dynesty` tries to grab the size of the pool from the `pool._processes`
+or `pool.size` attributes of the `pool`. If neither is defined, the number of function
 evaluations to execute in parallel can be set manually using the `queue_size`
 argument::
 
     # initialize sampler with pool with pre-defined queue
     sampler = NestedSampler(loglike, ptform, ndim, pool=pool, queue_size=8)
 
-There is *no* reason to set queue_size to anything other then the number of parallel processes in the pool.
+Typically, `queue_size` should be set to the number of parallel processes in the pool (which is the default). However, if your likelihood function evaluations take highly variable amounts of time, you may benefit from using a `queue_size` that is larger than the number of CPUs (though it must remain smaller than the number of live points).
 
 Parallel operations in `dynesty` are done by simply swapping in the
 `pool.map` function over the default `map` function when making likelihood
@@ -654,11 +654,11 @@ If you used the pool in the sampler and you want to use the pool after restoring
     # resume
     sampler.run_nested(resume=True)
 
-You should be careful when restoring the sampler on machine with different number of CPUs when using a pool.
+You should be careful when restoring the sampler on a machine with a different number of CPUs when using a pool.
 We will still use the original queue_size unless it was 1 before.
 
-The checkpointing may be helpful if you are running dynesty on HPC with a queue system that has a limit on a wall-time that your jobs can run.
-There is a however an important reminder that should *NOT* use checkpointing for persistence. I.e. if you want to save the results of the sampling, you should save samples, weights or the results object, rather than the whole nested sampling object (as checkpointing does). The reason for this is that the checkpoint files are not guaranteed to be compatible between dynesty versions (even minor ones).
+The checkpointing may be helpful if you are running dynesty on HPC with a queue system that has a limit on the wall-time that your jobs can run.
+There is however an important reminder that you should *NOT* use checkpointing for persistence. I.e., if you want to save the results of the sampling, you should save samples, weights, or the results object, rather than the whole nested sampling object (as checkpointing does). The reason for this is that the checkpoint files are not guaranteed to be compatible between dynesty versions (even minor ones).
 
 Saving auxiliary information from log-likelihood function
 ----------------------------------------------------------

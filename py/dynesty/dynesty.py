@@ -339,8 +339,9 @@ optional
             live point proposals using (at most) `queue_size` many threads.
             Each thread independently proposes new live points until the
             proposal distribution
-            is updated. If no value is passed, this defaults to `pool.size` (if
-            a `pool` has been provided) and `1` otherwise (no parallelism).
+            is updated. If no value is passed, this defaults to the size of
+            the pool (determined from `pool._processes` or `pool.size`, if a
+            `pool` has been provided) and `1` otherwise (no parallelism).
 
         pool : user-provided pool, optional
             Use this pool of workers to execute operations in parallel.

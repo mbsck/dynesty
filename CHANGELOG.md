@@ -7,8 +7,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 [Unreleased]
 ### Added
 ### Changed
+### Fixed
+
+[3.1.0 - 2026-07-17]
+### Added
+### Changed
 - Show the ETA and expected number of iterations when sampling.
-- When restoring the sampler with the pool, use an updated value of `queue_size` based on the pool size
+- When restoring the sampler with the pool of a different size, warn the user about queue_size, as it may not be optimal
 - Use `chunksize=1` for the dynesty pool, as that is better behaved for `queue_size > nthreads` and unequal durations of function evaluations
 - When starting dynesty with a multiprocessing pool, dynesty now tries to use the `_processes` keyword to determine how many CPUs are available. This should reduce the need for manual `queue_size` specification
 ### Fixed

@@ -99,7 +99,17 @@ Changelog
 .. image:: ../images/logo.gif
     :align: center
 
-	    	    
+3.1.0 (2026-07-17)
+------------------
+Small feature release
+
+This is a release with a few quality of life improvements.
+
+- When running the sampler you now see the estimate of the expected runtime.
+- When using the dynesty pool, it now performs better when the queue_size is bigger than nthreads.
+- Now dynesty can guess the queue_size from the multiprocessing pool, so there is no need to specify it.
+
+	    
 3.0.0 (2025-10-04)
 ------------------
 Major release
